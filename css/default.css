@@ -1,0 +1,15 @@
+@charset "utf-8";
+body, header, footer, main, nav, aside, section, article, p, address, div, h1, h2, h3, h4, h5, h6, form, fieldset, legend, table, tbody, th, td, ol, ul, li, dl, dt, dd, input, button, select, option, textarea, figure, figcaption, caption, blockquote{   margin:0;   padding:0;   }
+ol, ul{   list-style:none;   }
+img{   display:block;   border:0px;  }
+a{    text-decoration:none;   }
+address, em, i{   font-style:normal;  }
+button, fieldset, select, input{  border:0px;  }
+legend, caption, hr{    display:none;    }
+table{   border-collapse:collapse;  border-spacing:0px;   }
+/* h1,h2,h3,h4,h5,h6,strong,b{  font-weight:normal;  }
+em,i,q{  font-style:normal;  } */
+.sr_only{
+	display:block;  width:0px;  height:0px;  font-size:0px;  line-height:0px;
+	visibility:hidden;  overflow:hidden;  position:absolute;  left:0;  top:0;
+}
