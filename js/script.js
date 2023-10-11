@@ -1,13 +1,42 @@
 
-    // header
-    $('#header>.innerbox>.gnb>ul').on('mouseenter focusin',function(){
-        $(this).find('.sub').stop().slideDown(350,);
-        $('.gnb_bg').stop().slideDown(350,);
-    });
-    $('#header>.innerbox>.gnb>ul').on('mouseleave focusout',function(){
-        $(this).find('.sub').stop().slideUp(300,);
-        $('.gnb_bg').stop().slideUp(300,);
-    });
+    // header (PC버전)
+    if (matchMedia("screen and (min-width: 1200px)").matches) {
+        $('#header>.innerbox>.gnb>ul').on('mouseenter focusin',function(){
+            $(this).find('.sub').stop().slideDown(350,);
+            $('.gnb_bg').stop().slideDown(350,);
+        });
+        $('#header>.innerbox>.gnb>ul').on('mouseleave focusout',function(){
+            $(this).find('.sub').stop().slideUp(300,);
+            $('.gnb_bg').stop().slideUp(300,);
+        });
+    } else {
+        // accordian 메뉴(모바일 버전)
+        const subItems = document.querySelectorAll('.sub');
+        const menuItems = document.querySelectorAll('.gnb li');
+
+        menuItems.forEach((item) => {
+            const menuItem = item.querySelector('a');
+            const subItem = item.querySelector('.sub');
+        
+            if (subItem) {
+                menuItem.addEventListener('click', (e) => {
+                    e.preventDefault();
+        
+                    if (subItem.style.display === 'block') {
+                        subItem.style.display = 'none';
+                    } else {
+                        subItem.style.display = 'block';
+                    }
+
+                    subItems.forEach((sub) => {
+                        if (sub !== subItem) {
+                            sub.style.display = 'none';
+                        }
+                    });
+                });
+            }
+        });
+    }
     
     const headerHeight=document.querySelector('header').offsetHeight;
     const header=document.querySelector('header');
@@ -20,43 +49,12 @@
             header.classList.remove('fix');
         }
     })
-
-
-    // button
-    const btn = document.querySelector('#btn');
-    let btnState = true;
-    btn.addEventListener('click', ()=>{
-        if(btn.className == 'on') {btn.classList.remove('on')
-        }else{btn.classList.add('on')}
-
-        if( btnState ){
-            if( window.innerWidth>768 ){
-                document.querySelector('.gnb').style.right='70%'; //(window.innerWidth - 180)+'px'
-            }else{
-                document.querySelector('.gnb').style.right='0%';
-            }
-            btnState = false;
-        }else{
-            if( window.innerWidth>768){
-                document.querySelector('.gnb').style.right='100%';
-            }else{
-                document.querySelector('.gnb').style.right='-70vw';
-            }
-            btnState = true;
-        }
-    });
-
-
-    // accordian 메뉴
-    const menuItems = document.querySelectorAll('.gnb>ul>li>a')
-    const subItem = document.querySelectorAll('.sub a')
-    menuItems.forEach((item) => {
-        item.addEventListener('click', (e) => {
-            e.preventDefault();
-            const sub = subItem.parentElement.querySelectorAll('.sub');
-            sub.style.display == 'none' ? sub.style.display == 'block' : sub.style.display == 'none'
-        });
-    });
+    
+    const logo = document.querySelector('#header h1 img')
+    logo.addEventListener('click', (e) => {
+        console.log('click')
+        e.preventDefault;
+    })
 
 
 
@@ -87,74 +85,165 @@
     const leftImg = document.querySelector(".left_img");
     const rightImg = document.querySelector(".right_img");
     const r8 = document.querySelector("#r8");
-    gsap.to(r8, {
-        scrollTrigger:{
-            trigger: r8,
-            start: "0% 0%",
-            end: "87%",
-            pin: true,
-            // markers: true,
-        }
-    })
-    gsap.to(leftImg, {
-        scrollTrigger:{
-            trigger: leftImg,
-            scrub: 1,
-            start:"-75%",
-            end:"100% 80%",
-            // markers: true,
-        },
-        left: -300,
-        rotate: -2,
-    })
-    gsap.to(rightImg, {
-        scrollTrigger:{
-            trigger:rightImg,
-            scrub: 1,
-            start:"-75%",
-            end:"100% 80%",
-        },
-        left: 1600,
-        rotate: 2,
-    })
+    gsap.registerPlugin(ScrollTrigger);
+    if (matchMedia("screen and (min-width: 1200px)").matches) {
+        gsap.to(r8, {
+            scrollTrigger:{
+                trigger: r8,
+                start: "0% 0%",
+                end: "20%",
+                pin: true,
+                // markers: true,
+            }
+        })
+        gsap.to(leftImg, {
+            scrollTrigger:{
+                trigger: leftImg,
+                scrub: 1,
+                start:"-75%",
+                end:"100% 80%",
+                // markers: true,
+            },
+            left: -300,
+            rotate: -2,
+        })
+        gsap.to(rightImg, {
+            scrollTrigger:{
+                trigger:rightImg,
+                scrub: 1,
+                start:"-75%",
+                end:"100% 80%",
+            },
+            left: 1600,
+            rotate: 2,
+        })
+    } else if(matchMedia("screen and (min-width: 641px)").matches) {
+        gsap.to(r8, {
+            scrollTrigger:{
+                trigger: r8,
+                start: "0% 0%",
+                end: "300",
+                pin: true,
+                // markers: true,
+            }
+        })
+        gsap.to(leftImg, {
+            scrollTrigger:{
+                trigger: leftImg,
+                scrub: 1,
+                start:"-75%",
+                end:"300",
+                // markers: true,
+            },
+            left: -300,
+            rotate: -2,
+        })
+        gsap.to(rightImg, {
+            scrollTrigger:{
+                trigger: rightImg,
+                scrub: 1,
+                start:"-75%",
+                end:"300",
+                // markers: true,
+            },
+            left: 1090,
+            rotate: 2,
+        })
+    }
 
 
     //r8_content section
-    gsap.registerPlugin(ScrollTrigger);
     const img_wrap = document.querySelector("#r8_content > .img_wrap");
     const r8_content = document.querySelector("#r8_content");
     const text_wrap = document.querySelector("#r8_content > .content_wrap")
+
+    if (matchMedia("screen and (min-width: 1200px)").matches) {
+        
+        
+        gsap.to(img_wrap, {
+            scrollTrigger:{
+                trigger: img_wrap,
+                start: "0% 10%",
+                end: "140%",
+                scrub: 0.5,
+                // markers: true,
+            },
+            left: -700,
+        });
+        gsap.to(r8_content, {
+            scrollTrigger:{
+                trigger: r8_content,
+                pin: true,
+                start: "0% 0%",
+                end: "100%",
+                // markers: true,
+                scrub: 1,
+            }
+        });
+        gsap.to(text_wrap, {
+            scrollTrigger:{
+                trigger: text_wrap,
+                start: "0% 10%",
+                end: "140%",
+                scrub: 1,
+                // markers: true,
+            },
+            opacity: 1,
+        });
+    } else if (matchMedia("screen and (min-width: 641px)").matches) {
+        gsap.to(img_wrap, {
+            scrollTrigger:{
+                trigger: img_wrap,
+                start: "0% 10%",
+                end: "160%",
+                scrub: 0.5,
+                // markers: true,
+            },
+            left: -700,
+        });
+        gsap.to(r8_content, {
+            scrollTrigger:{
+                trigger: r8_content,
+                pin: true,
+                start: "0% 0%",
+                end: "100%",
+                // markers: true,
+                scrub: 1,
+            }
+        });
+        gsap.to(text_wrap, {
+            scrollTrigger:{
+                trigger: text_wrap,
+                start: "-100",
+                end: "160%",
+                scrub: 1,
+                // markers: true,
+            },
+            opacity: 1,
+        });
+    } else {
+        gsap.to(img_wrap, {
+            scrollTrigger:{
+                trigger: img_wrap,
+                start: "0% 10%",
+                end: "140%",
+                scrub: 0.5,
+                // markers: true,
+            },
+            left: -800,
+        });
+        gsap.to(r8_content, {
+            scrollTrigger:{
+                trigger: r8_content,
+                pin: true,
+                start: "0% 0%",
+                end: "140%",
+                // markers: true,
+                scrub: 1,
+            }
+        });
+    }
     
-    gsap.to(img_wrap, {
-        scrollTrigger:{
-            trigger: img_wrap,
-            start: "0% 10%",
-            end: "140%",
-            scrub: 0.5,
-            // markers: true,
-        },
-        left: -700,
-    });
-    gsap.to(r8_content, {
-        scrollTrigger:{
-            trigger: r8_content,
-            pin: true,
-            start: "0% 0%",
-            end: "100%",
-            // markers: true,
-            scrub: 1,
-        }
-    });
-    gsap.to(text_wrap, {
-        scrollTrigger:{
-            trigger: text_wrap,
-            start: "0% 10%",
-            end: "140%",
-            scrub: 1,
-            // markers: true,
-        },
-        opacity: 1,
-    });
 
 
     //quattro_content
@@ -165,43 +254,91 @@
     const quattro_img = $('#quattro .img_wrap');
     const quattro_text = $("#quattro .img_wrap .text_wrap");
 
-    // let keyframes = [
-    //     {opacity: 0},
-    //     {opacity: 0.5},
-    //     {opacity: 1}
-    // ]
-    // const textEffect = quattro_text.animate(keyframes, 700);
+    if (matchMedia("screen and (min-width: 1200px)").matches) {
+        gsap.to(quattro_img, {
+            scrollTrigger:{
+                trigger: quattro_img,
+                start: "0% 0%",
+                end: "130%",
+                // markers: true,
+                scrub: 0.5,
+            },
+            width: "100%",
+        });
+        gsap.to(quattro, {
+            scrollTrigger:{
+                trigger: quattro,
+                pin: true,
+                start: "0% 0%",
+                end: "140%",
+                // markers: true,
+                scrub: 0.5,
+            }
+        });
+        gsap.to(quattro_text, {
+            scrollTrigger:{
+                trigger: quattro_text,
+                start: "95%",
+                end: "135%",
+                // markers: true,
+                scrub: 0.1,
+            },
+            opacity: 1,
+        });
+    } else if(matchMedia("screen and (min-width: 641px)").matches) {
+        gsap.to(quattro_img, {
+            scrollTrigger:{
+                trigger: quattro_img,
+                start: "0% 0%",
+                end: "130%",
+                // markers: true,
+                scrub: 0.5,
+            },
+            width: "100%",
+        });
+        gsap.to(quattro, {
+            scrollTrigger:{
+                trigger: quattro,
+                pin: true,
+                start: "0% 0%",
+                end: "140%",
+                // markers: true,
+                scrub: 0.5,
+            }
+        });
+        gsap.to(quattro_text, {
+            scrollTrigger:{
+                trigger: quattro_text,
+                start: "95%",
+                end: "135%",
+                // markers: true,
+                scrub: 0.1,
+            },
+            opacity: 1,
+        });
+    } else {
+        gsap.to(quattro, {
+            scrollTrigger:{
+                trigger: quattro,
+                pin: true,
+                start: "0% 0%",
+                end: "125%",
+                // markers: true,
+                scrub: 0.5,
+            }
+        });
 
-    gsap.to(quattro_img, {
-        scrollTrigger:{
-            trigger: quattro_img,
-            start: "0% 0%",
-            end: "130%",
-            // markers: true,
-            scrub: 0.5,
-        },
-        width: "100%",
-    });
-    gsap.to(quattro, {
-        scrollTrigger:{
-            trigger: quattro,
-            pin: true,
-            start: "0% 0%",
-            end: "140%",
-            // markers: true,
-            scrub: 0.5,
-        }
-    });
-    gsap.to(quattro_text, {
-        scrollTrigger:{
-            trigger: quattro_text,
-            start: "95%",
-            end: "135%",
-            // markers: true,
-            scrub: 0.1,
-        },
-        opacity: 1,
-    });
+        gsap.to(quattro_text, {
+            scrollTrigger:{
+                trigger: quattro_text,
+                start: "0% 0%",
+                end: "125%",
+                // markers: true,
+                scrub: 0.1,
+            },
+            opacity: 1,
+        });
+    }
 
 
     //brand
@@ -218,7 +355,21 @@
             el: ".swiper-pagination",
             clickable: true,
         },
+        // Responsive breakpoints
+        breakpoints: {
+            // when window width is >= 320px
+            320: {
+            slidesPerView: 1,
+            spaceBetween: 20
+            },
+            // when window width is >= 640px
+            640: {
+            slidesPerView: 2,
+            spaceBetween: 40
+            },
+            // when window width is >= 480px
+            1600: {
+            slidesPerView: 3,
+            },
+        }
     });
-
-
-
